@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from dp_it_giurisprudenza_grab import cassazione, cc
+from dp_it_giurisprudenza_grab import cassazione, cc, cgt
 from dp_it_giurisprudenza_grab.errors import CONFIG_ERROR, TRANSIENT_ERROR, GrabError
 from dp_it_giurisprudenza_grab.http import DEFAULT_ALLOWED_HOSTS, build_client
 
@@ -18,7 +18,8 @@ if TYPE_CHECKING:
 Progress = Callable[[int, str], None]
 KIND_CC = "cc"
 KIND_CASSAZIONE = "cassazione"
-KINDS = (KIND_CC, KIND_CASSAZIONE)
+KIND_CGT = "cgt"
+KINDS = (KIND_CC, KIND_CASSAZIONE, KIND_CGT)
 
 
 @dataclass(frozen=True)
@@ -40,8 +41,10 @@ def validate_items(items: Any) -> list[dict[str, Any]]:
             raise GrabError(CONFIG_ERROR, f"item {entry['key']}: meta.kind must be one of {list(KINDS)}")
         if meta["kind"] == KIND_CC:
             cc.validate_meta(entry["key"], meta)
-        else:
+        elif meta["kind"] == KIND_CASSAZIONE:
             cassazione.validate_meta(entry["key"], meta)
+        else:
+            cgt.validate_meta(entry["key"], meta)
     return items
 
 
@@ -56,8 +59,15 @@ def _cass_options(params: dict[str, Any]) -> cassazione.CassOptions:
     return cassazione.CassOptions(base_url=base_url, max_docs=max_docs)
 
 
+def _cgt_options(params: dict[str, Any]) -> cgt.CgtOptions:
+    max_items = params.get("maxItems")
+    if max_items is not None and (not isinstance(max_items, int) or isinstance(max_items, bool) or max_items < 1):
+        raise GrabError(CONFIG_ERROR, "maxItems must be an integer >= 1")
+    return cgt.CgtOptions(max_items=max_items)
+
+
 def _planned(base: Path, entry: dict[str, Any]) -> dict[str, str]:
-    return cc.planned(base, entry) if entry["meta"]["kind"] == KIND_CC else cassazione.planned(base, entry)
+    return {KIND_CC: cc.planned, KIND_CASSAZIONE: cassazione.planned, KIND_CGT: cgt.planned}[entry["meta"]["kind"]](base, entry)
 
 
 def run_grab(params: dict[str, Any], deps: GrabDeps, on_progress: Progress) -> dict[str, Any]:
@@ -84,14 +94,18 @@ def run_grab(params: dict[str, Any], deps: GrabDeps, on_progress: Progress) -> d
     client = build_client(hosts, deps.transport, verify_tls=verify_tls)
     index = cc.IndexPage(client)
     pacer = cassazione.Pacer(deps.sleep)
+    session = cgt.DocTribSession(client, pacer)
+    cgt_options = _cgt_options(params)
+    runners: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
+        KIND_CC: lambda entry: cc.grab_cc_item(entry, base, client, index),
+        KIND_CASSAZIONE: lambda entry: cassazione.grab_cassazione_item(entry, base, client, options, pacer),
+        KIND_CGT: lambda entry: cgt.grab_cgt_item(entry, base, session, cgt_options),
+    }
     files: list[dict[str, Any]] = []
     failures: list[tuple[str, GrabError]] = []
     for position, entry in enumerate(items):
         try:
-            if entry["meta"]["kind"] == KIND_CC:
-                files.append(cc.grab_cc_item(entry, base, client, index))
-            else:
-                files.append(cassazione.grab_cassazione_item(entry, base, client, options, pacer))
+            files.append(runners[entry["meta"]["kind"]](entry))
         except GrabError as error:
             failures.append((entry["key"], error))
         on_progress(int((position + 1) * 100 / len(items)), f"{position + 1}/{len(items)} {entry['key']}")

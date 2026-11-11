@@ -1,0 +1,392 @@
+{
+ "search-g-2024-real.html": {
+  "declared": 2184,
+  "discarded": [
+   14,
+   0,
+   2
+  ],
+  "items": [
+   {
+    "guid": "{E69E3100-5261-4D7D-B967-2BC6ABDDAF2A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-31",
+    "numero": "7355",
+    "grado": 2,
+    "luogo": "Campania",
+    "sezione": "2",
+    "estremi": "Sentenza del 31/12/2024 n. 7355 - Corte di giustizia tributaria di secondo grado della Campania - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{1A4195E8-8006-43BD-8788-006369C68D8A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-30",
+    "numero": "1103",
+    "grado": 1,
+    "luogo": "Ragusa",
+    "sezione": "2",
+    "estremi": "Sentenza del 30/12/2024 n. 1103 - Corte di giustizia tributaria di primo grado di Ragusa - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{4EB67605-5FE5-4CFB-AA12-F1C4CBDCBE88}",
+    "tipo": "Sentenza",
+    "data": "2024-12-30",
+    "numero": "710",
+    "grado": 2,
+    "luogo": "Piemonte",
+    "sezione": "3",
+    "estremi": "Sentenza del 30/12/2024 n. 710 - Corte di giustizia tributaria di secondo grado del Piemonte - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{08E0BBD8-D720-4A44-8EF7-007F6F9CDF04}",
+    "tipo": "Sentenza",
+    "data": "2024-12-27",
+    "numero": "426",
+    "grado": 2,
+    "luogo": "Friuli Venezia Giulia",
+    "sezione": "1",
+    "estremi": "Sentenza del 27/12/2024 n. 426 - Corte di giustizia tributaria di secondo grado del Friuli Venezia Giulia - Sezione/Collegio 1"
+   },
+   {
+    "guid": "{6190CF93-746F-457F-B90E-38B0894A662A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-23",
+    "numero": "5285",
+    "grado": 1,
+    "luogo": "Milano",
+    "sezione": "7",
+    "estremi": "Sentenza del 23/12/2024 n. 5285 - Corte di giustizia tributaria di primo grado di Milano - Sezione/Collegio 7"
+   },
+   {
+    "guid": "{70CFDC51-1EF1-4100-B0FE-130BB9632F47}",
+    "tipo": "Sentenza",
+    "data": "2024-12-23",
+    "numero": "243",
+    "grado": 2,
+    "luogo": "Molise",
+    "sezione": "2",
+    "estremi": "Sentenza del 23/12/2024 n. 243 - Corte di giustizia tributaria di secondo grado del Molise - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{64FB4B48-8541-43A7-86B1-5CB97080748D}",
+    "tipo": "Sentenza",
+    "data": "2024-12-23",
+    "numero": "246",
+    "grado": 2,
+    "luogo": "Molise",
+    "sezione": "2",
+    "estremi": "Sentenza del 23/12/2024 n. 246 - Corte di giustizia tributaria di secondo grado del Molise - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{EC13A11E-1449-421A-877B-3ABF5C312A12}",
+    "tipo": "Sentenza",
+    "data": "2024-12-23",
+    "numero": "1210",
+    "grado": 2,
+    "luogo": "Marche",
+    "sezione": "2",
+    "estremi": "Sentenza del 23/12/2024 n. 1210 - Corte di giustizia tributaria di secondo grado delle Marche - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{08A3CB1E-339D-4CBE-AF1A-CFAF2ABB5100}",
+    "tipo": "Sentenza",
+    "data": "2024-12-20",
+    "numero": "9618",
+    "grado": 2,
+    "luogo": "Sicilia",
+    "sezione": "13",
+    "estremi": "Sentenza del 20/12/2024 n. 9618 - Corte di giustizia tributaria di secondo grado della Sicilia - Sezione/Collegio 13"
+   },
+   {
+    "guid": "{288AA8C1-C8DC-46F5-96E4-4FFD37FAEDEB}",
+    "tipo": "Sentenza",
+    "data": "2024-12-20",
+    "numero": "1196",
+    "grado": 2,
+    "luogo": "Marche",
+    "sezione": "1",
+    "estremi": "Sentenza del 20/12/2024 n. 1196 - Corte di giustizia tributaria di secondo grado delle Marche - Sezione/Collegio 1"
+   },
+   {
+    "guid": "{9F069BB0-14DB-4CAA-9354-6D57D6A590B3}",
+    "tipo": "Sentenza",
+    "data": "2024-12-19",
+    "numero": "1008",
+    "grado": 2,
+    "luogo": "Liguria",
+    "sezione": "3",
+    "estremi": "Sentenza del 19/12/2024 n. 1008 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{B4A32C7F-CA39-4C47-80E0-1C04A1B055A2}",
+    "tipo": "Sentenza",
+    "data": "2024-12-19",
+    "numero": "3319",
+    "grado": 2,
+    "luogo": "Lombardia",
+    "sezione": "11",
+    "estremi": "Sentenza del 19/12/2024 n. 3319 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione/Collegio 11"
+   },
+   {
+    "guid": "{008F1CE9-AC6C-4608-8045-72E6903AD246}",
+    "tipo": "Sentenza",
+    "data": "2024-12-17",
+    "numero": "1005",
+    "grado": 2,
+    "luogo": "Liguria",
+    "sezione": "2",
+    "estremi": "Sentenza del 17/12/2024 n. 1005 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{C45F07B1-2604-463D-8FF8-F0D597D7CF5F}",
+    "tipo": "Sentenza",
+    "data": "2024-12-17",
+    "numero": "1003",
+    "grado": 2,
+    "luogo": "Liguria",
+    "sezione": "2",
+    "estremi": "Sentenza del 17/12/2024 n. 1003 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{7D10FCE5-6C26-4147-A1C9-E9A61E4FF0C7}",
+    "tipo": "Sentenza",
+    "data": "2024-12-17",
+    "numero": "984",
+    "grado": 2,
+    "luogo": "Liguria",
+    "sezione": "2",
+    "estremi": "Sentenza del 17/12/2024 n. 984 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{3E19241B-725C-4673-AB79-C2C9BF21EAE6}",
+    "tipo": "Sentenza",
+    "data": "2024-12-17",
+    "numero": "3285",
+    "grado": 2,
+    "luogo": "Lombardia",
+    "sezione": "6",
+    "estremi": "Sentenza del 17/12/2024 n. 3285 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione/Collegio 6"
+   },
+   {
+    "guid": "{833BE06A-6FF2-42E8-BB21-4AEAAF07678D}",
+    "tipo": "Sentenza",
+    "data": "2024-12-17",
+    "numero": "1520",
+    "grado": 2,
+    "luogo": "Toscana",
+    "sezione": "1",
+    "estremi": "Sentenza del 17/12/2024 n. 1520 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione/Collegio 1"
+   },
+   {
+    "guid": "{D4ECF60D-88AD-46CA-84DE-DDC811297DE3}",
+    "tipo": "Sentenza",
+    "data": "2024-12-16",
+    "numero": "7571",
+    "grado": 2,
+    "luogo": "Lazio",
+    "sezione": "12",
+    "estremi": "Sentenza del 16/12/2024 n. 7571 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione/Collegio 12"
+   },
+   {
+    "guid": "{D90C776C-478D-4CD8-BE76-74077C630CCB}",
+    "tipo": "Sentenza",
+    "data": "2024-12-16",
+    "numero": "1255",
+    "grado": 2,
+    "luogo": "Sardegna",
+    "sezione": "3",
+    "estremi": "Sentenza del 16/12/2024 n. 1255 - Corte di giustizia tributaria di secondo grado della Sardegna - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{0391E8EB-5200-4B5C-A125-B6824FA068C5}",
+    "tipo": "Sentenza",
+    "data": "2024-12-16",
+    "numero": "1507",
+    "grado": 2,
+    "luogo": "Toscana",
+    "sezione": "3",
+    "estremi": "Sentenza del 16/12/2024 n. 1507 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{201511D3-7CE0-4A94-93DD-976D9AD60D13}",
+    "tipo": "Sentenza",
+    "data": "2024-12-15",
+    "numero": "7556",
+    "grado": 2,
+    "luogo": "Lazio",
+    "sezione": "11",
+    "estremi": "Sentenza del 15/12/2024 n. 7556 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione/Collegio 11"
+   },
+   {
+    "guid": "{FF9380A6-0768-4771-8DBD-B272CB7D9DBD}",
+    "tipo": "Sentenza",
+    "data": "2024-12-12",
+    "numero": "240",
+    "grado": 2,
+    "luogo": "Molise",
+    "sezione": "1",
+    "estremi": "Sentenza del 12/12/2024 n. 240 - Corte di giustizia tributaria di secondo grado del Molise - Sezione/Collegio 1"
+   },
+   {
+    "guid": "{51D036CB-0856-4FDE-9436-52E53C688292}",
+    "tipo": "Sentenza",
+    "data": "2024-12-12",
+    "numero": "683",
+    "grado": 2,
+    "luogo": "Piemonte",
+    "sezione": "1",
+    "estremi": "Sentenza del 12/12/2024 n. 683 - Corte di giustizia tributaria di secondo grado del Piemonte - Sezione/Collegio 1"
+   },
+   {
+    "guid": "{63D7D40B-29D4-4753-A086-0CF9F599F336}",
+    "tipo": "Sentenza",
+    "data": "2024-12-10",
+    "numero": "844",
+    "grado": 2,
+    "luogo": "Veneto",
+    "sezione": "2",
+    "estremi": "Sentenza del 10/12/2024 n. 844 - Corte di giustizia tributaria di secondo grado del Veneto - Sezione/Collegio 2"
+   },
+   {
+    "guid": "{4B6A4F80-2B56-439D-9F33-8A5F258350E4}",
+    "tipo": "Sentenza",
+    "data": "2024-12-10",
+    "numero": "3228",
+    "grado": 2,
+    "luogo": "Lombardia",
+    "sezione": "15",
+    "estremi": "Sentenza del 10/12/2024 n. 3228 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione/Collegio 15"
+   },
+   {
+    "guid": "{24E317A8-D289-4E21-A3B8-33A77F0D526A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-10",
+    "numero": "3232",
+    "grado": 2,
+    "luogo": "Lombardia",
+    "sezione": "19",
+    "estremi": "Sentenza del 10/12/2024 n. 3232 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione/Collegio 19"
+   },
+   {
+    "guid": "{957C9447-D568-450C-A135-2D03D76BF775}",
+    "tipo": "Sentenza",
+    "data": "2024-12-10",
+    "numero": "4134",
+    "grado": 2,
+    "luogo": "Puglia",
+    "sezione": "3",
+    "estremi": "Sentenza del 10/12/2024 n. 4134 - Corte di giustizia tributaria di secondo grado della Puglia - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{8A55D548-1E8D-4768-BD23-C659DEE9BD46}",
+    "tipo": "Sentenza",
+    "data": "2024-12-10",
+    "numero": "1455",
+    "grado": 2,
+    "luogo": "Toscana",
+    "sezione": "4",
+    "estremi": "Sentenza del 10/12/2024 n. 1455 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione/Collegio 4"
+   },
+   {
+    "guid": "{50B6A7F8-3D80-4A72-9213-222E2F4DBA56}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "7354",
+    "grado": 2,
+    "luogo": "Lazio",
+    "sezione": "12",
+    "estremi": "Sentenza del 09/12/2024 n. 7354 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione/Collegio 12"
+   },
+   {
+    "guid": "{AD484D48-2C3C-46E1-A616-C47731B7C83F}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "7353",
+    "grado": 2,
+    "luogo": "Lazio",
+    "sezione": "12",
+    "estremi": "Sentenza del 09/12/2024 n. 7353 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione/Collegio 12"
+   },
+   {
+    "guid": "{C7D79D0C-28CE-445B-8BB8-C9D156745366}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "15180",
+    "grado": 1,
+    "luogo": "Roma",
+    "sezione": "40",
+    "estremi": "Sentenza del 09/12/2024 n. 15180 - Corte di giustizia tributaria di primo grado di Roma - Sezione/Collegio 40"
+   },
+   {
+    "guid": "{466B72DC-A693-49D3-8414-D00F917CF8CB}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "2922",
+    "grado": 1,
+    "luogo": "Siracusa",
+    "sezione": "3",
+    "estremi": "Sentenza del 09/12/2024 n. 2922 - Corte di giustizia tributaria di primo grado di Siracusa - Sezione/Collegio 3"
+   },
+   {
+    "guid": "{07F0FCD6-88AD-4BAB-813B-9ABF5063951B}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "1100",
+    "grado": 2,
+    "luogo": "Emilia Romagna",
+    "sezione": "14",
+    "estremi": "Sentenza del 09/12/2024 n. 1100 - Corte di giustizia tributaria di secondo grado dell'Emilia Romagna - Sezione/Collegio 14"
+   },
+   {
+    "guid": "{0C9E8B70-7E8B-4981-BDD3-EDEBAA0863CE}",
+    "tipo": "Sentenza",
+    "data": "2024-12-09",
+    "numero": "1101",
+    "grado": 2,
+    "luogo": "Emilia Romagna",
+    "sezione": "14",
+    "estremi": "Sentenza del 09/12/2024 n. 1101 - Corte di giustizia tributaria di secondo grado dell'Emilia Romagna - Sezione/Collegio 14"
+   }
+  ]
+ },
+ "search-g-day-real.html": {
+  "declared": 2,
+  "discarded": [
+   1,
+   0,
+   0
+  ],
+  "items": [
+   {
+    "guid": "{E69E3100-5261-4D7D-B967-2BC6ABDDAF2A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-31",
+    "numero": "7355",
+    "grado": 2,
+    "luogo": "Campania",
+    "sezione": "2",
+    "estremi": "Sentenza del 31/12/2024 n. 7355 - Corte di giustizia tributaria di secondo grado della Campania - Sezione/Collegio 2"
+   }
+  ]
+ },
+ "search-g-day-2026-11-11.html": {
+  "declared": 2,
+  "discarded": [
+   1,
+   0,
+   0
+  ],
+  "items": [
+   {
+    "guid": "{E69E3100-5261-4D7D-B967-2BC6ABDDAF2A}",
+    "tipo": "Sentenza",
+    "data": "2024-12-31",
+    "numero": "7355",
+    "grado": 2,
+    "luogo": "Campania",
+    "sezione": "2",
+    "estremi": "Sentenza del 31/12/2024 n. 7355 - Corte di giustizia tributaria di secondo grado della Campania - Sezione/Collegio 2"
+   }
+  ]
+ }
+}

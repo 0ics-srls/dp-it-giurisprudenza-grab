@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+	<title>Documentazione Economica e Finanziaria - Giurisprudenza</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	<!-- NEW STYLE -->   
+	<link rel="icon" href="stylesheet_3.0/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 768px)" href="stylesheet_3.0/css/web/w_screen.css">
+	<link rel="stylesheet" type="text/css" media="print" href="stylesheet_3.0/css/web/w_print.css">
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 767px)" href="stylesheet_3.0/css/mob/m_screen.css">
+	<!--<link rel="stylesheet" type="text/css" media="print and (max-width: 767px)" href="stylesheet_3.0/css/mob/m_print.css">-->
+	<!--[if IE 7]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie7.css"><![endif]-->
+	<!--[if IE 8]><link rel="stylesheet" media="screen" type="text/css" href="stylesheet_3.0/css/web/w_screen.css"><link rel="stylesheet" media="screen" type="text/css" href="stylesheet_3.0/css/web/w_ie8.css"><![endif]-->
+	<!--[if IE 9]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie9.css"><![endif]-->
+	<!--[if gte IE 9]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie1x.css"><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie7.css"><![endif]-->
+	
+	<!--[if IE 9]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie9.css"><![endif]-->
+	<!--[if gte IE 9]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie1x.css"><![endif]-->	
+	<script type="text/javascript" src="stylesheet_3.0/js/jquery.js"></script>
+	<script type="text/javascript" src="stylesheet_3.0/js/jquery-migrate.js"></script>		
+	<!--[if lt IE 9]><script type="text/javascript" src="stylesheet_3.0/js/html5shiv.js"></script><![endif]-->
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="stylesheet_3.0/js/css3-mediaqueries.js"></script>
+		<link rel="stylesheet" type="text/css" href="stylesheet_3.0/css/web/w_responsive.css">
+		<link rel="stylesheet" type="text/css" href="stylesheet_3.0/css/mob/m_responsive.css">
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="stylesheet_3.0/js/select2/select2.css">
+	<script type="text/javascript" src="stylesheet_3.0/js/select2/select2.min.js"></script>
+	<script type="text/javascript" src="stylesheet_3.0/js/select2/select2_locale_it.js"></script>
+	<script type="text/javascript" src="script/util.jsp"></script>
+	<script type="text/javascript">
+		// submit
+		function submitSaveSearch(){
+			document.getElementById("saveSearchForm").submit();			
+		}
+		function submitDoYouMean(parola){
+	    	document.getElementById("DoYouMeanForm").elements["parole"].value=parola;
+			document.getElementById("DoYouMeanForm").submit();
+		}
+		function associaCollezione(){
+			document.getElementById("aggiungiCollezioneForm").submit();
+		}
+	</script>
+	<script type="text/javascript">   
+		$(function(){
+			// caricamento script responsive	   	 	  
+			if($(window).width() >= 768){//desktop
+				//alert("$(window).width() >= 768")
+  				$.getScript("stylesheet_3.0/js/web/w_script.js", function(){});
+  				$("nav").removeClass("web"); // fa apparire il menu principale
+  				if ($.browser.msie) {
+  					if ( parseInt($.browser.version, 10) === 7){
+  						//alert('IE7');
+  						$.getScript("stylesheet_3.0/js/web/w_ie7.js", function(){});
+  					}else if (parseInt($.browser.version, 10) === 8) {
+  						//alert('IE8');
+  						$.getScript("stylesheet_3.0/js/web/w_ie8.js", function(){});
+  					}
+				}					
+			}else{ 
+				//alert("$(window).width() < 768")
+				$.getScript("stylesheet_3.0/js/mob/m_script.js", function(){});
+				if ($.browser.msie) {
+  					if ( parseInt($.browser.version, 10) === 7){
+  						//alert('IE7');
+  						$.getScript("stylesheet_3.0/js/mob/m_ie7.js", function(){});
+  					}else if (parseInt($.browser.version, 10) === 8) {
+  						//alert('IE8');
+  						$.getScript("stylesheet_3.0/js/mob/m_ie8.js", function(){});
+  					}
+				}	
+				$("nav").addClass("web"); // fa scomparire il menu principale		
+			}
+			// focus menu
+			$(".corrente").removeClass("corrente");
+			// setto il focus su normativa
+			$("#menu_giurisprudenza").addClass("corrente");
+			
+			/**
+			*** PARSING DELL'XML CON I RISULTATI DELLA RICERCA
+			***/
+			
+			try{
+				tipoRisultato = "G"; 
+				showFirstPage();
+			}
+			catch(err){				
+				//alert(err.msg);
+				window.location.href = "/DocTribFrontend/errorPage.jsp";
+			}
+			// event handler			
+			$('.avanti').click( function() { 				
+					var newPageIndex = pageIndex + 1;					
+					if (newPageIndex <= numPages){
+						pageIndex++;
+						$(".pageIndex").html(pageIndex);
+						$(".risultati-ricerca").html("");
+						//alert("pageIndex = " + pageIndex);
+						try{
+							showPageResult(getPage(pageIndex,$risultati));
+						}
+						catch(err){				
+							//alert(err.msg);
+							window.location.href = "/DocTribFrontend/errorPage.jsp";
+						}
+					}
+					gestisciPaginatori();			
+					return false;				
+				}			
+			);
+			$('.indietro').click( function() { 				
+				var newPageIndex = pageIndex - 1;
+				if (newPageIndex >=1){
+					pageIndex--;
+					$(".pageIndex").html(pageIndex);
+					$(".risultati-ricerca").html("");
+					//alert("pageIndex = " + pageIndex);
+					try{
+						showPageResult(getPage(pageIndex,$risultati));
+					}
+					catch(err){				
+						//alert(err.msg);
+						window.location.href = "/DocTribFrontend/errorPage.jsp";
+					}
+				}
+				gestisciPaginatori();			
+				return false;				
+				} 			
+			);
+			gestisciPaginatori();
+			
+		});
+	</script>
+	<script type="text/javascript" src="stylesheet_3.0/js/utils/result-parser.js"></script>
+	<script type="text/javascript">
+		// risultati ricerca
+		var xmlResult = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><risultatiRicerca><sessione \/><contatori><contatoreNormativa>0<\/contatoreNormativa><contatorePrassi>0<\/contatorePrassi><contatoreGiurisprudenza>2<\/contatoreGiurisprudenza><\/contatori><risultati><pagina>1<\/pagina><ultimaPagina>1<\/ultimaPagina><totaleProvvedimenti>2<\/totaleProvvedimenti><ulterioriRisultati>false<\/ulterioriRisultati><Provvedimento idProvvedimento=\"{2A2FE532-BE85-4C17-9C2F-0AB49189F1C4}\"><estremi link=\"true\">Ordinanza del 31\/12\/2024 n. 35147 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Diniego tacito rimborso tributi<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{E69E3100-5261-4D7D-B967-2BC6ABDDAF2A}\"><estremi link=\"true\">Sentenza del 31\/12\/2024 n. 7355 - Corte di giustizia tributaria di secondo grado della Campania - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><\/risultati><\/risultatiRicerca>';	
+		
+		function processStateChange() {
+		    var pagesize = 50;
+			if (req.readyState == 4) { // Complete
+			if (req.status == 200) { // OK response
+			var count = req.responseXML.getElementsByTagName("countGiurisprudenzaAdvanced")[0].childNodes[0].nodeValue;
+			var numPages = ((count - (count % pagesize)) / pagesize);	
+			if ((count % pagesize) > 0) {
+	 				numPages++;
+				}
+			
+			
+			if(count > pagesize){			
+				if(document.getElementById("linkavantiUp")!=null)
+					document.getElementById("linkavantiUp").style.display = "inline";
+				if(document.getElementById("linkavantiDown")!=null)
+					document.getElementById("linkavantiDown").style.display = "inline";
+			}							
+			
+			if (document.getElementById("countGiurisprudenzaAvanzata") != null)
+			{
+			document.getElementById("countGiurisprudenzaAvanzata").innerHTML = count;
+			}
+			if(document.getElementById("countPagineGiurisprudenzaUp") != null){
+				document.getElementById("countPagineGiurisprudenzaUp").innerHTML = numPages;
+				document.getElementById("countPagineGiurisprudenzaDown").innerHTML = numPages;
+
+				if (document.getElementById("paginaCorrente").innerHTML >= numPages) {
+					// To mask "avanti"
+				    if(document.getElementById("avantiGiurisprudenzaUp") != null){
+				    	document.getElementById("avantiGiurisprudenzaUp").innerHTML = ""; 
+				    }
+				    if(document.getElementById("avantiGiurisprudenzaDown") != null){
+				    	document.getElementById("avantiGiurisprudenzaDown").innerHTML = ""; 
+				    }
+			    } 
+			}
+			if(document.getElementById("countTotali") != null)
+			{
+				document.getElementById("countTotali").innerHTML = count;
+			}
+			document.getElementById("countAjaxTerminated").disabled = false;
+			} else {
+				 alert("Problem: " + req.statusText);
+			}
+		 }
+		}
+	
+		function paginatorNextWaitAjaxCount(){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitFormJump('getNextPageAdvanced.do');
+		}
+		
+		function paginatorPreviousWaitAjaxCount(num){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitFormJump('getPageResultsAdvanced.do', num);
+		}
+		
+		function goDetatilWaitAjaxCount(url){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitForm(url);
+		}
+	</script>
+	
+
+</head>
+
+				 
+				 
+<body>
+
+<div>
+	<a href="#" id="countAjaxTerminated"></a>
+</div>
+
+
+
+
+<header role="banner">
+	
+	<div class="skiplink"><a href="#corpo" accesskey="0">Contenuti della pagina</a> | <a href="#menu-principale">Menu principale</a></div>
+	
+	<div id="testata-bg" class="web"></div>
+	
+	<div id="testata">	 
+	<div class="contenitore">
+		<div class="logo-def web">
+			<a href="start.do"><img src="./stylesheet_3.0/img/logo-def_2.png" alt="Torna alla home page" width="708" height="100"></a>
+		</div><!--.logo-def-->
+		<div class="logo-def mob">
+			<a href="start.do"><img src="./stylesheet_3.0/img/logo-def.png" alt="Torna alla home page" width="708" height="100"></a>
+		</div><!--.logo-def-->
+		<div class="logo-ssef web">
+			<a title="Dipartimento delle Finanze [link a sito esterno]" href="http://www.finanze.gov.it">
+				<img src="./stylesheet_3.0/img/logo-df.png" alt="Dipartimento delle Finanze Sito esterno" width="215" height="77" class="logo-mef">
+			</a>
+		</div><!--.logo-ssef-->
+	</div><!--.contenitore-->	
+	<div class="menu-servizio web"> 
+		<div class="contenitore">
+		<h1 class="skipheader">Menu di servizio</h1>
+		<ul>
+		<li><a href="start.do">Home</a></li>
+		<li><a href="./chiSiamo.jsp">Chi siamo</a></li>		
+		<!-- <li><a href="http://www.cerdef.it/site.php?page=20070220171621567">Scrivi a...</a></li>-->
+		<li><a href="./scriviA.jsp">Scrivi a...</a></li>
+		<li><a href="./Guida.jsp">Guida</a></li>
+		
+		
+			<li class="web"><a href="areaRiservata.do">Area riservata</a></li>
+		
+		
+		<li><a href="./RssIntro.jsp"><img src="./stylesheet_3.0/img/ico-rss.png" alt="RSS" title="RSS" width="22" height="22"></a></li>
+		</ul>
+		</div><!--.contenitore-->
+		</div><!--.menu-servizio--> 
+	</div><!--#testata-->
+	
+	
+	<nav role="navigation" class="web">
+		<div class="contenitore">
+		<div id="menu-principale">
+		<h1 class="skipheader">Menu principale</h1>
+		<ul>
+			<li id="menu_normativa">
+				<a href="callRicAvanzataNormativa.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Normativa">Normativa</a>
+			</li>
+			<li id="menu_prassi">
+				<a href="callRicAvanzataPrassi.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Prassi">Prassi</a>
+			</li>
+			<li id="menu_giurisprudenza">
+				<a href="callRicAvanzataGiurisprudenza.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Giurisprudenza">Giurisprudenza</a>
+			</li>
+			<li id="menu_collezioni">
+				<a href="documentiRilevanti.do?js_enabled=1&amp;agenzia=COL" title="Ricerca nelle Collezioni">Collezioni</a>
+			</li>
+			<li id="menu_area_utente">
+				<a href="RicercheMemorizzate.jsp?js_enabled=1" title="Area utente">Area utente</a>				
+			</li>
+		</ul>
+		
+		<div class="clear"></div>		
+		</div><!--#menu-principale-->
+		</div><!--.contenitore-->
+	</nav>
+	
+</header>
+ 
+
+<div class="contenitore ie7">
+	
+	<div id="corpo" role="main">
+	
+	<!-- BREADCRUMBS -->
+	<div id="menu-navigazione">
+		<p>Ti trovi in: <a style="text-decoration: underline" href="start.do">Home</a> - 
+		
+		
+			
+			
+				<a style="text-decoration: underline" href="callRicAvanzataGiurisprudenza.do" class="web">Ricerca Avanzata Giurisprudenza</a>
+			
+ 		
+		
+	
+		&nbsp;-&nbsp;<strong>Risultati Ricerca</strong></p>
+	</div><!--#menu-navigazione-->
+		  
+	<!-- TITOLO -->
+	<h1 class="principale">Risultati ricerca</h1>	
+
+	<div id="principale" class="spalla-dx">	
+		
+		<!-- MSG RICERCA SALVATA -->
+		
+		
+		<!-- TOT e DO YOU MEAN -->
+		<div class="riepilogo-ricerca">
+				<p>Documenti trovati: <strong><span id="totDocumentiTrovati"></span></strong></p>			
+				<!-- DO YOU MEAN ? -->
+				<p id="doyoumean-list"></p>				
+
+				 				
+		</div><!--.riepilogo ricerca-->
+		
+		<!-- RISULTATO RICERCA -->
+		<div>
+			<h2 class="float-sx h2 web">Giurisprudenza</h2>
+			<p class="pagine-ricerca float-dx">Pagina <strong><span class="pageIndex"></span></strong><!-- di <span class="numPages"> </span> --><a href="#" class="indietro">Indietro</a> <a href="#" class="avanti">Avanti</a>
+				<!-- LINK ULTERIORI RISULTATI -->
+				<a href="javascript:void(0)" class="ulteriori" style="display:none;" onClick="window.location.href='paginatorXml.do'">Avanti</a>
+			</p>
+			<div class="br"></div>			
+			<div class="risultati-ricerca"></div>
+			<div class="br"></div>			
+			<p class="pagine-ricerca" data-href="#dom-2">Pagina <strong><span class="pageIndex"></span></strong><!-- di <span class="numPages"> </span> --><a href="#" class="indietro">Indietro</a> <a href="#" class="avanti">Avanti</a>
+				<!-- LINK ULTERIORI RISULTATI -->
+				<a href="javascript:void(0)" class="ulteriori" style="display:none;" onClick="window.location.href='paginatorXml.do'">Avanti</a>
+			</p>
+		</div><!--.spalla-sx-->	
+		
+	</div><!--#principale-->					
+						
+	<!-- MENU A DESTRA -->
+	<aside role="complementary">		
+		<div id="spalla-dx">
+			
+			<!-- ASSOCIA A COLLEZIONE -->
+			
+					
+			<!-- RIEPILOGO RICERCA -->
+			<div class="toggle">				
+				<div class="titolo">
+					<h2 class="secondario lowercase">Riepilogo dati inseriti</h2>
+				</div><!--.titolo-->		
+				<div class="contenuto">
+						<dl class="criteri-ricerca">
+							
+							<!-- PAROLE CERCATE -->
+							
+					  			
+							<!-- RICERCA SOLO NEL TITOLO -->
+							
+				  				
+				 	 		
+				 	 		<!-- RICERCA SOLO PER MASSIME PRESENTI -->
+							
+				  				
+				 	 		
+				 	 						 	 			
+				 	 		<!-- TIPO ESTREMI -->
+												  		
+					  		
+					  		<!-- NUMERO -->					  		
+					 							  		
+					  		
+					  		<!-- DENOMINAZIONE ENTE -->	
+												  		
+					  		
+					  		<!-- DENOMINAZIONE SUPERENTE -->	
+						  							  	
+						  	
+						  	<!-- DATA EMISSIONE -->				  
+					  		
+								<dt>Emissione</dt>
+								<dd>
+									
+										<strong> da: 31/12/2024</strong> 
+									
+									
+										<strong> fino a: 31/12/2024</strong> 
+									
+								</dd>
+					 		
+					 	 	<!-- MATERIA FISCALE -->
+						    
+						    <!-- CLASSIFICAZIONE -->
+						    
+						    
+						    <!-- ORDINAMENTO -->					    
+							
+								<dt>Dati</dt>
+								<dd><strong>ordinati per Data</strong></dd>
+													
+						</dl><!--.criteri-ricerca-->			
+				</div><!--.contenuto-->
+			</div><!--.toggle-->
+		
+		<!-- BOTTONI -->
+		<div class="bottoni estesi">
+			<span id="dom-1"></span>			 
+			 <!-- RAFFINA RICERCA -->
+			 <p class="web">
+		    	<a href="#" class="bottone icon icon-lente"  onClick="javascript:document.getElementById('raffinaRicerca').submit();">Raffina ricerca</a>
+			 </p>
+			<!-- MEMORIZZA RICERCA -->
+	   		<p class="web">
+	  	 	    
+				   	<a class="bottone icon icon-floppy" href="#" onClick="javascript:submitSaveSearch();">Memorizza ricerca</a>
+				 
+			</p>
+			<!-- STAMPA 
+			<p>
+				<a class="bottone icon icon-print" href="javascript:window.print();">Stampa</a>
+			</p>-->
+		</div><!--.bottoni-->		
+		<span id="dom-2"></span>
+		</div><!--#spalla-dx-->
+		
+	</aside>
+
+<div class="clear"></div>
+</div><!--#corpo-->
+</div><!--.contenitore-->
+<div class="clear"></div>
+<!-- FOOTER --> 
+
+
+
+
+<footer role="contentinfo">
+<div id="footer">
+	<div class="contenitore">
+	<h1 class="skipheader">Pi&egrave; di pagina</h1>
+	<ul>
+		<li><a target="_dichiarazioneAccessilitaAgid" title="Dichiarazione di accessibilit&agrave; [link a sito esterno, apre una nuova finestra]" href="https://form.agid.gov.it/view/d2541de0-956c-11f0-8e98-83c59d87f31b">Dichiarazione di accessibilit&agrave;</a>
+
+		<li><a href="./privacy.jsp">Privacy</a></li>
+		<li><a href="./linkUtili.jsp">Link utili</a></li>
+		<li><a href="./noteLegali.jsp">Note legali</a></li>		
+	</ul>
+	</div><!--.contenitore-->
+	<div class="clear"></div>
+	</div><!--#footer-->
+</footer>
+
+<!-- Matomo DEF - Documentazione Economica e Finanziaria -->
+
+	<!-- Matomo - DEF - Documentazione Economica e Finanziaria -->
+	<script type="text/javascript">
+	  var _paq = window._paq || [];
+	  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+	  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+	  _paq.push(["setCookieDomain", "*.def.finanze.it"]);
+	  _paq.push(["setDomains", ["*.def.finanze.it","*.def.giustiziatributaria.gov.it"]]);
+	  _paq.push(['trackPageView']);
+	  _paq.push(['enableLinkTracking']);
+	  (function() {
+	    var u="https://aaws-aanalytics.sogei.it/piwik/";
+	    _paq.push(['setTrackerUrl', u+'matomo.php']);
+	    _paq.push(['setSiteId', '31']);
+	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+	  })();
+	</script>
+	<noscript><p><img src="https://aaws-aanalytics.sogei.it/piwik/matomo.php?idsite=31&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+	<!-- End Matomo Code -->
+
+<!-- FORM RAFFINA RICERCA -->
+<form action="callRicAvanzataGiurisprudenza.do" method="POST" id="raffinaRicerca">
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	
+		<input type="hidden" name="numArticolo" value ="" />
+	
+	
+		<input type="hidden" name="articolo" value ="" />
+	
+	<input type="hidden" name="tipoEstremi" value ="" />
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+</form>
+<!-- FORM SALVATAGGIO RICERCA -->
+
+<form action="executeAdvancedGiurisprudenzaSearch.do" method="POST" id="saveSearchForm" style="display:none;">
+	<input type="hidden" name="saveSearch" value="true" />
+	<input type="hidden" name="[i]pageToCall" value="executeAdvancedGiurisprudenzaSearch.do" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="tipo_ord"  value ="DATA" />
+	
+	<input type="hidden" name="dataEmissioneA" value ="31/12/2024"/>
+	
+	
+	<input type="hidden" name="dataEmissioneDa" value ="31/12/2024" />
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	<input type="hidden" name="device" value ="D"/>
+	<input type="hidden" name="tipoRicerca"  value ="RA"/>
+	<input type="hidden" name="ambitoRicerca" value ="G" />
+	<input type="hidden" name="tipoEstremi" value ="" />
+	<input type="hidden" name="materiaFiscale" value ="" />
+	<input type="hidden" name="classificazioneArgomento" value ="" />
+	<input type="hidden" name="materiaFiscaleDescr" value ="null" />
+	<input type="hidden" name="classificazioneArgomentoDescr" value ="null" />
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+	
+	
+	
+	
+</form>
+<!-- FORM ASSOCIA COLLEZIONE -->
+<form action="preAssociaCollezione.do" method="POST" id="aggiungiCollezioneForm" style="display:none;">
+	<input type="hidden" name="saveSearch2"    value="true" />
+	<input type="hidden" name="[i]pageToCall2" value="preAssociaCollezione.do" />
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+</form>
+<!-- FORM CHANGE PAGE -->
+<form name="changePage" action="#" method="post" style="display:none;">	
+	<input type="hidden" name="numero" id="numero"  value="">
+	<input type="hidden" name="anno" id="anno"  value="null">
+	<input type="hidden" name="parole" id="parole"  value="">
+	<input type="hidden" name="tipoCriterioRicerca" id="tipoCriterioRicerca"  value="0">
+	<input type="hidden" name="tipo_ord" id="tipo_ord"  value="DATA">
+	<input type="hidden" name="pageDest" id="pageDest"  value="">
+	<input type="hidden" name="TYPE_DOCUMENT_SEARCH" id="TYPE_DOCUMENT_SEARCH"  value="2">
+</form>	
+<!-- FORM DO YOU MEAN -->
+<form action="executeAdvancedGiurisprudenzaSearch.do" method="POST" id="DoYouMeanForm" style="display:none;">
+	<input type="hidden" name="doYouMeanForm" value="true" />
+	<input type="hidden" name="[i]pageToCall" value="executeAdvancedGiurisprudenzaSearch.do" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	
+		<input type="hidden" name="numArticolo" value ="" />
+	
+	
+		<input type="hidden" name="articolo" value ="" />
+	
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+	
+	
+</form>	
+</body>
+</html>
