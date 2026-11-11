@@ -8,6 +8,7 @@ import zipfile
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.parse import parse_qs
 
 import httpx
 import pytest
@@ -81,6 +82,53 @@ class Server:
 @pytest.fixture
 def sleeps() -> list[float]:
     return []
+
+
+SOLR_URL = "https://www.italgiure.giustizia.it/sncass/isapi/hc.dll/sn.solr/sn-collection/select"
+
+
+def solr_doc(number: int) -> dict[str, object]:
+    """A synthetic sentence with the list-valued fields the live endpoint returns."""
+    return {
+        "id": f"snciv2025{number:06d}O",
+        "kind": ["snciv"],
+        "anno": ["2025"],
+        "numdec": [str(number)],
+        "szdec": ["5"],
+        "datdec": ["20250310"],
+        "datdep": ["20250411"],
+        "materia": ["TRIBUTI"],
+        "ocr": [f"testo della sentenza {number}"],
+    }
+
+
+@dataclass
+class SolrFake:
+    """A fake ItalGiure Solr over ``total`` documents: answers form POSTs with ``numFound`` and the ``start``/``rows`` slice. Forms are logged."""
+
+    total: int
+    forms: list[dict[str, str]] = field(default_factory=list)
+    fail_first: int = 0
+    status: int = 200
+    calls: int = 0
+
+    def handle(self, request: httpx.Request) -> httpx.Response:
+        self.calls += 1
+        if self.status != 200:
+            return httpx.Response(self.status, text="denied")
+        if self.fail_first > 0:
+            self.fail_first -= 1
+            return httpx.Response(500, text="boom")
+        form = {k: v[0] for k, v in parse_qs(request.content.decode("utf-8")).items()}
+        self.forms.append(form)
+        start, rows = int(form["start"]), int(form["rows"])
+        docs = [solr_doc(n) for n in range(start + 1, min(start + rows, self.total) + 1)]
+        body = {"responseHeader": {"status": 0}, "response": {"numFound": self.total, "start": start, "docs": docs}}
+        return httpx.Response(200, json=body)
+
+    @property
+    def transport(self) -> httpx.MockTransport:
+        return httpx.MockTransport(self.handle)
 
 
 @pytest.fixture
