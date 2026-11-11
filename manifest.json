@@ -1,0 +1,71 @@
+{
+  "specVersion": "1.1",
+  "type": "stdin",
+  "name": "dp-it-giurisprudenza-grab",
+  "version": "0.1.0",
+  "description": "Downloads case-law sources into <dir>: Corte costituzionale open data dumps, Cassazione Solr pages (ItalGiure), CGT decisions (MEF DocTrib). Sidecar files for the convert class.",
+  "author": "open-lex-it",
+  "authentication": false,
+  "actions": {
+    "execute": {
+      "description": "For each item fetch its source and write atomically (cc: dump zip + .dump.json; cassazione: Solr pages; cgt: slice and detail html). Failed keys end the run with an error. dryRun: no request.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "the items to download, as reported by the detect step",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string", "minLength": 1 },
+                "url": { "type": "string" },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "kind": { "enum": ["cc", "cassazione", "cgt"] },
+                    "itemId": { "type": "string" },
+                    "bundle": { "type": "string", "description": "cc items: the dump name" },
+                    "cassKind": { "enum": ["snciv", "snpen"], "description": "cassazione items" },
+                    "anno": { "type": "integer" },
+                    "mese": { "type": "integer", "description": "cassazione items: 1-12, 13 = residual partition" },
+                    "from": { "type": "string", "description": "cgt items: first day YYYY-MM-DD" },
+                    "to": { "type": "string", "description": "cgt items: last day YYYY-MM-DD" }
+                  },
+                  "required": ["kind", "itemId"]
+                }
+              },
+              "required": ["key", "meta"]
+            }
+          },
+          "dir": { "type": "string", "description": "directory to download into" },
+          "dryRun": { "type": "boolean", "description": "plan only: no request, nothing written" },
+          "maxDocs": { "type": "integer", "description": "cassazione sample filter: stop after this many sentences" },
+          "maxItems": { "type": "integer", "description": "cgt sample filter: stop after this many decisions" },
+          "solrBaseUrl": { "type": "string", "description": "cassazione: base URL of the ItalGiure host (default the official one)" },
+          "verifyTls": { "type": "boolean", "description": "cassazione and cgt: set false only if the certificate chain cannot be verified" },
+          "allowedHosts": { "type": "array", "items": { "type": "string" }, "description": "hosts the class may call (default the three source hosts)" }
+        },
+        "required": ["items", "dir"]
+      },
+      "output": {
+        "type": "object",
+        "description": "{ downloaded, unchanged, files: [{key, path, sidecar, status}] }",
+        "properties": {
+          "downloaded": { "type": "integer" },
+          "unchanged": { "type": "integer" },
+          "files": { "type": "array", "items": { "type": "object" } }
+        }
+      }
+    },
+    "terminate": {
+      "description": "Stop and clean up.",
+      "input": { "type": "object", "properties": {} }
+    }
+  },
+  "execution": {
+    "timeout": 7200,
+    "memoryLimit": "512Mi",
+    "cpuLimit": "1.0"
+  }
+}

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+	<title>Documentazione Economica e Finanziaria - Giurisprudenza</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	<!-- NEW STYLE -->   
+	<link rel="icon" href="stylesheet_3.0/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 768px)" href="stylesheet_3.0/css/web/w_screen.css">
+	<link rel="stylesheet" type="text/css" media="print" href="stylesheet_3.0/css/web/w_print.css">
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 767px)" href="stylesheet_3.0/css/mob/m_screen.css">
+	<!--<link rel="stylesheet" type="text/css" media="print and (max-width: 767px)" href="stylesheet_3.0/css/mob/m_print.css">-->
+	<!--[if IE 7]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie7.css"><![endif]-->
+	<!--[if IE 8]><link rel="stylesheet" media="screen" type="text/css" href="stylesheet_3.0/css/web/w_screen.css"><link rel="stylesheet" media="screen" type="text/css" href="stylesheet_3.0/css/web/w_ie8.css"><![endif]-->
+	<!--[if IE 9]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie9.css"><![endif]-->
+	<!--[if gte IE 9]><link rel="stylesheet" media="all and (min-width: 768px)" type="text/css" href="stylesheet_3.0/css/web/w_ie1x.css"><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie7.css"><![endif]-->
+	
+	<!--[if IE 9]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie9.css"><![endif]-->
+	<!--[if gte IE 9]><link rel="stylesheet" media="all and (max-width: 767px)" type="text/css" href="stylesheet_3.0/css/mob/m_ie1x.css"><![endif]-->	
+	<script type="text/javascript" src="stylesheet_3.0/js/jquery.js"></script>
+	<script type="text/javascript" src="stylesheet_3.0/js/jquery-migrate.js"></script>		
+	<!--[if lt IE 9]><script type="text/javascript" src="stylesheet_3.0/js/html5shiv.js"></script><![endif]-->
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="stylesheet_3.0/js/css3-mediaqueries.js"></script>
+		<link rel="stylesheet" type="text/css" href="stylesheet_3.0/css/web/w_responsive.css">
+		<link rel="stylesheet" type="text/css" href="stylesheet_3.0/css/mob/m_responsive.css">
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="stylesheet_3.0/js/select2/select2.css">
+	<script type="text/javascript" src="stylesheet_3.0/js/select2/select2.min.js"></script>
+	<script type="text/javascript" src="stylesheet_3.0/js/select2/select2_locale_it.js"></script>
+	<script type="text/javascript" src="script/util.jsp"></script>
+	<script type="text/javascript">
+		// submit
+		function submitSaveSearch(){
+			document.getElementById("saveSearchForm").submit();			
+		}
+		function submitDoYouMean(parola){
+	    	document.getElementById("DoYouMeanForm").elements["parole"].value=parola;
+			document.getElementById("DoYouMeanForm").submit();
+		}
+		function associaCollezione(){
+			document.getElementById("aggiungiCollezioneForm").submit();
+		}
+	</script>
+	<script type="text/javascript">   
+		$(function(){
+			// caricamento script responsive	   	 	  
+			if($(window).width() >= 768){//desktop
+				//alert("$(window).width() >= 768")
+  				$.getScript("stylesheet_3.0/js/web/w_script.js", function(){});
+  				$("nav").removeClass("web"); // fa apparire il menu principale
+  				if ($.browser.msie) {
+  					if ( parseInt($.browser.version, 10) === 7){
+  						//alert('IE7');
+  						$.getScript("stylesheet_3.0/js/web/w_ie7.js", function(){});
+  					}else if (parseInt($.browser.version, 10) === 8) {
+  						//alert('IE8');
+  						$.getScript("stylesheet_3.0/js/web/w_ie8.js", function(){});
+  					}
+				}					
+			}else{ 
+				//alert("$(window).width() < 768")
+				$.getScript("stylesheet_3.0/js/mob/m_script.js", function(){});
+				if ($.browser.msie) {
+  					if ( parseInt($.browser.version, 10) === 7){
+  						//alert('IE7');
+  						$.getScript("stylesheet_3.0/js/mob/m_ie7.js", function(){});
+  					}else if (parseInt($.browser.version, 10) === 8) {
+  						//alert('IE8');
+  						$.getScript("stylesheet_3.0/js/mob/m_ie8.js", function(){});
+  					}
+				}	
+				$("nav").addClass("web"); // fa scomparire il menu principale		
+			}
+			// focus menu
+			$(".corrente").removeClass("corrente");
+			// setto il focus su normativa
+			$("#menu_giurisprudenza").addClass("corrente");
+			
+			/**
+			*** PARSING DELL'XML CON I RISULTATI DELLA RICERCA
+			***/
+			
+			try{
+				tipoRisultato = "G"; 
+				showFirstPage();
+			}
+			catch(err){				
+				//alert(err.msg);
+				window.location.href = "/DocTribFrontend/errorPage.jsp";
+			}
+			// event handler			
+			$('.avanti').click( function() { 				
+					var newPageIndex = pageIndex + 1;					
+					if (newPageIndex <= numPages){
+						pageIndex++;
+						$(".pageIndex").html(pageIndex);
+						$(".risultati-ricerca").html("");
+						//alert("pageIndex = " + pageIndex);
+						try{
+							showPageResult(getPage(pageIndex,$risultati));
+						}
+						catch(err){				
+							//alert(err.msg);
+							window.location.href = "/DocTribFrontend/errorPage.jsp";
+						}
+					}
+					gestisciPaginatori();			
+					return false;				
+				}			
+			);
+			$('.indietro').click( function() { 				
+				var newPageIndex = pageIndex - 1;
+				if (newPageIndex >=1){
+					pageIndex--;
+					$(".pageIndex").html(pageIndex);
+					$(".risultati-ricerca").html("");
+					//alert("pageIndex = " + pageIndex);
+					try{
+						showPageResult(getPage(pageIndex,$risultati));
+					}
+					catch(err){				
+						//alert(err.msg);
+						window.location.href = "/DocTribFrontend/errorPage.jsp";
+					}
+				}
+				gestisciPaginatori();			
+				return false;				
+				} 			
+			);
+			gestisciPaginatori();
+			
+		});
+	</script>
+	<script type="text/javascript" src="stylesheet_3.0/js/utils/result-parser.js"></script>
+	<script type="text/javascript">
+		// risultati ricerca
+		var xmlResult = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><risultatiRicerca><sessione \/><contatori><contatoreNormativa>0<\/contatoreNormativa><contatorePrassi>0<\/contatorePrassi><contatoreGiurisprudenza>2184<\/contatoreGiurisprudenza><\/contatori><risultati><pagina>1<\/pagina><ultimaPagina>5<\/ultimaPagina><totaleProvvedimenti>50<\/totaleProvvedimenti><ulterioriRisultati>true<\/ulterioriRisultati><Provvedimento idProvvedimento=\"{2A2FE532-BE85-4C17-9C2F-0AB49189F1C4}\"><estremi link=\"true\">Ordinanza del 31\/12\/2024 n. 35147 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Diniego tacito rimborso tributi<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{E69E3100-5261-4D7D-B967-2BC6ABDDAF2A}\"><estremi link=\"true\">Sentenza del 31\/12\/2024 n. 7355 - Corte di giustizia tributaria di secondo grado della Campania - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{1A4195E8-8006-43BD-8788-006369C68D8A}\"><estremi link=\"true\">Sentenza del 30\/12\/2024 n. 1103 - Corte di giustizia tributaria di primo grado di Ragusa - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{4EB67605-5FE5-4CFB-AA12-F1C4CBDCBE88}\"><estremi link=\"true\">Sentenza del 30\/12\/2024 n. 710 - Corte di giustizia tributaria di secondo grado del Piemonte - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Registro - Locatore persona fisica - Locatario societ\à - Cedolare secca - Uso abitativo - Validit\à regime agevolativo<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{7BF0B745-44AA-4968-B3F1-81266CC7F773}\"><estremi link=\"true\">Sentenza del 27\/12\/2024 n. 34549 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>\u200B Accertamento - Avvisi notificati a societ\à estinta prima dell\'entrata in vigore del <a href=\"decodeurn?urn=urn:doctrib::DLG:2014;175\">D.Lgs. n. 175\/2014<\/a><\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{08E0BBD8-D720-4A44-8EF7-007F6F9CDF04}\"><estremi link=\"true\">Sentenza del 27\/12\/2024 n. 426 - Corte di giustizia tributaria di secondo grado del Friuli Venezia Giulia - Sezione\/Collegio 1<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{6190CF93-746F-457F-B90E-38B0894A662A}\"><estremi link=\"true\">Sentenza del 23\/12\/2024 n. 5285 - Corte di giustizia tributaria di primo grado di Milano - Sezione\/Collegio 7<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{70CFDC51-1EF1-4100-B0FE-130BB9632F47}\"><estremi link=\"true\">Sentenza del 23\/12\/2024 n. 243 - Corte di giustizia tributaria di secondo grado del Molise - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Imposte dirette e Iva - Estratti di ruolo Ires, Irap, Iva - Interpretazione o valutazione degli atti di causa - Errore revocatorio - Non sussiste - Inammissibilit\à del ricorso<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{64FB4B48-8541-43A7-86B1-5CB97080748D}\"><estremi link=\"true\">Sentenza del 23\/12\/2024 n. 246 - Corte di giustizia tributaria di secondo grado del Molise - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p><\/p><p style=\"text-align: justify;\">Tributi locali - Avviso di accertamento Tasi - Definizione oggetto del giudizio - Elementi della fase definitiva del provvedimento impugnato - Sussistono<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{EC13A11E-1449-421A-877B-3ABF5C312A12}\"><estremi link=\"true\">Sentenza del 23\/12\/2024 n. 1210 - Corte di giustizia tributaria di secondo grado delle Marche - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>All\'amministrazione finanziaria spetta l\'onere di provare in giudizio le ragioni su cui si fonda l\'atto impositivo.<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{ACDEA78D-2544-41BF-AEF7-681EF07C8EF5}\"><estremi link=\"true\">Ordinanza del 20\/12\/2024 n. 33702 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{08A3CB1E-339D-4CBE-AF1A-CFAF2ABB5100}\"><estremi link=\"true\">Sentenza del 20\/12\/2024 n. 9618 - Corte di giustizia tributaria di secondo grado della Sicilia - Sezione\/Collegio 13<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{288AA8C1-C8DC-46F5-96E4-4FFD37FAEDEB}\"><estremi link=\"true\">Sentenza del 20\/12\/2024 n. 1196 - Corte di giustizia tributaria di secondo grado delle Marche - Sezione\/Collegio 1<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p><p style=\"text-align: justify;\">Il trasferimento di denaro su un conto corrente sanmarinese, riconducibile a un contribuente italiano, ai sensi del <a href=\"decodeurn?urn=urn:doctrib::DL:1990-06-28;167\">D. L. 28 giugno 1990 n. 167<\/a> deve essere indicato nel quadro RW della dichiarazione dei redditi.<\/p><p style=\"text-align: justify;\">L\'omessa denuncia di disponibilit\à finanziarie detenute all\'estero ai sensi dell\'<a href=\"decodeurn?urn=urn:doctrib::DL:2009;78_art12\">art 12 DL 78\/2009<\/a> comma 2 bis e 2 ter prevede il raddoppio dei termini (anche in relazione alle sanzioni) di accertamento, di decadenza e di prescrizione.<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{788E63B9-1717-4D6E-9BCB-62DF4DBFFF61}\"><estremi link=\"true\">Ordinanza del 19\/12\/2024 n. 33364 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>IVA - Societ\à non operative - Volume d\'affari minimo<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{B17C0B87-5798-4E57-BDE8-6EE2FCC2E08D}\"><estremi link=\"true\">Sentenza del 19\/12\/2024 n. 1040 - Corte di Giustizia UE - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p><\/p><p style=\"text-align: justify;\">IVA - <a href=\"decodeurn?urn=urn:doctrib::CEE:2006-11-28;112_allx\">Direttiva 2006\/112\/CE - Articolo 370 - Allegato X<\/a>, parte A, punto 2) - Deroga - Ambito di applicazione - Attivit\à di un ente radiotelevisivo pubblico finanziate mediante un canone obbligatorio versato dai detentori di apparecchi capaci di captare trasmissioni radiofoniche e televisive<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{9F069BB0-14DB-4CAA-9354-6D57D6A590B3}\"><estremi link=\"true\">Sentenza del 19\/12\/2024 n. 1008 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{B4A32C7F-CA39-4C47-80E0-1C04A1B055A2}\"><estremi link=\"true\">Sentenza del 19\/12\/2024 n. 3319 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione\/Collegio 11<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{6E144334-FEE0-4792-9DEE-C8ABE97254B8}\"><estremi link=\"true\">Ordinanza del 17\/12\/2024 n. 32925 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Redditi di lavoratore dipendente - Indennit\à di trasferta - Somme corrisposte dal datore di lavoro - <a href=\"decodeurn?urn=urn:doctrib::TU:1986-12-22;917_art51\">Art. 51 TUIR<\/a><\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{88281797-52AF-4D91-A569-A51B6B09F054}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 204 - Corte Costituzionale<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><datiGU><![CDATA[Pubblicato in Gazzetta Ufficiale - 1a Serie Speciale n. 51 del 18\/12\/2024]]><\/datiGU><\/Provvedimento><Provvedimento idProvvedimento=\"{008F1CE9-AC6C-4608-8045-72E6903AD246}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 1005 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{C45F07B1-2604-463D-8FF8-F0D597D7CF5F}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 1003 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{7D10FCE5-6C26-4147-A1C9-E9A61E4FF0C7}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 984 - Corte di giustizia tributaria di secondo grado della Liguria - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{3E19241B-725C-4673-AB79-C2C9BF21EAE6}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 3285 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione\/Collegio 6<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{833BE06A-6FF2-42E8-BB21-4AEAAF07678D}\"><estremi link=\"true\">Sentenza del 17\/12\/2024 n. 1520 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione\/Collegio 1<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{351F1FC3-FF3D-409A-8F91-0C273C8C5809}\"><estremi link=\"true\">Ordinanza del 16\/12\/2024 n. 32732 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Accertamento - Valore probatorio del PVC<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{1D613084-9AEF-4AF2-96B9-49694784A5FF}\"><estremi link=\"true\">Ordinanza del 16\/12\/2024 n. 32700 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p><p style=\"text-align: justify;\">IVA - Locazioni turistiche - Soggiorno del medesimo inquilino - Operazioni di pulizia e cambio biancheria - Cambio di inquilino e non giornalmente o ripetutamente - Mera prestazione di riassetto dei locali - Attivit\à alberghiera - Inconfigurabilit\à<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{8035A60A-11B0-4DA2-9689-D27A3D518C02}\"><estremi link=\"true\">Ordinanza del 16\/12\/2024 n. 32679 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Riscossione - Imposta di Registro - Prescrizione<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{D4ECF60D-88AD-46CA-84DE-DDC811297DE3}\"><estremi link=\"true\">Sentenza del 16\/12\/2024 n. 7571 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione\/Collegio 12<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<em>Accertamento \- Iva - Compensazione orizzontale - Crediti superiori a 15.000,00 euro - Visto di conformit\à \- Mancata apposizione \- Costituisce violazione meramente formale sanzionabile in misura fissa e non proporzionale \- Accoglimento parziale - Rimborso del tributo compensato \- Pretesa illegittima in presenza di violazione formale \- Pretesa, nel caso di specie, non censurata in primo grado \- Nuova domanda non proponibile in appello \- Rigetto \- Consegue. <\/em>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{D90C776C-478D-4CD8-BE76-74077C630CCB}\"><estremi link=\"true\">Sentenza del 16\/12\/2024 n. 1255 - Corte di giustizia tributaria di secondo grado della Sardegna - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{0391E8EB-5200-4B5C-A125-B6824FA068C5}\"><estremi link=\"true\">Sentenza del 16\/12\/2024 n. 1507 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{201511D3-7CE0-4A94-93DD-976D9AD60D13}\"><estremi link=\"true\">Sentenza del 15\/12\/2024 n. 7556 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione\/Collegio 11<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<em>Accertamento \- Interessi corrisposti da istituto di credito \- Ritenute e versamenti con F\/24 \- Formazione di Crediti d\'imposta \- Rimborso \- Diniego - Documentazione \- Prospetti del sostituto d\'imposta riepilogativi degli interessi e relative ritenute \- Sufficienza \- Principi di leale collaborazione e di vicinanza della prova \- Necessitano. <\/em>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{2B044987-BF02-45A8-8C3C-025EE40932D5}\"><estremi link=\"true\">Provvedimento del 13\/12\/2024 n. 32261 - Corte di Cassazione<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{E6D6A7A3-721E-4320-A6D5-23914D674D04}\"><estremi link=\"true\">Ordinanza del 12\/12\/2024 n. 32032 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Penale tributario - Sequestro di beni mobili e immobili<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{FF9380A6-0768-4771-8DBD-B272CB7D9DBD}\"><estremi link=\"true\">Sentenza del 12\/12\/2024 n. 240 - Corte di giustizia tributaria di secondo grado del Molise - Sezione\/Collegio 1<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Tributi locali - Avviso di accertamento Imu - Abitazione principale del contribuente - Residenza anagrafica o dimora abituale del soggetto passivo - Sussiste<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{51D036CB-0856-4FDE-9436-52E53C688292}\"><estremi link=\"true\">Sentenza del 12\/12\/2024 n. 683 - Corte di giustizia tributaria di secondo grado del Piemonte - Sezione\/Collegio 1<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Controllo 36 Ter nei confronti del responsabile fiscale del CAF - Incompetenza territoriale dell\'A.E. emittente<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{9B82AD8B-33D1-46CE-9C22-DCAA833D42B2}\"><estremi link=\"true\">Ordinanza del 11\/12\/2024 n. 31928 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Accertamento - Delega di firma - Processo tributario<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{EB11FB66-659B-49B0-B8BF-A5F0622A65C2}\"><estremi link=\"true\">Ordinanza del 11\/12\/2024 n. 31907 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Sanzioni tributarie - Crisi di liquidit\à - Forza maggiore<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{1F6F2190-4718-4CF8-848E-BF0852B67B5F}\"><estremi link=\"true\">Ordinanza del 11\/12\/2024 n. 31877 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>Accertamento - Operazioni soggettivamente inesistenti - Deducibilit\à - Contribuente inconsapevole<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{63D7D40B-29D4-4753-A086-0CF9F599F336}\"><estremi link=\"true\">Sentenza del 10\/12\/2024 n. 844 - Corte di giustizia tributaria di secondo grado del Veneto - Sezione\/Collegio 2<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{4B6A4F80-2B56-439D-9F33-8A5F258350E4}\"><estremi link=\"true\">Sentenza del 10\/12\/2024 n. 3228 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione\/Collegio 15<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{24E317A8-D289-4E21-A3B8-33A77F0D526A}\"><estremi link=\"true\">Sentenza del 10\/12\/2024 n. 3232 - Corte di giustizia tributaria di secondo grado della Lombardia - Sezione\/Collegio 19<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{957C9447-D568-450C-A135-2D03D76BF775}\"><estremi link=\"true\">Sentenza del 10\/12\/2024 n. 4134 - Corte di giustizia tributaria di secondo grado della Puglia - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{8A55D548-1E8D-4768-BD23-C659DEE9BD46}\"><estremi link=\"true\">Sentenza del 10\/12\/2024 n. 1455 - Corte di giustizia tributaria di secondo grado della Toscana - Sezione\/Collegio 4<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{7B3883EB-A4A1-42EB-8AE5-68FFBF9C515F}\"><estremi link=\"true\">Ordinanza del 09\/12\/2024 n. 31597 - Corte di Cassazione - Sezione\/Collegio 5<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<p>IMU - Inagibilit\à dell\'immobile<\/p>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{50B6A7F8-3D80-4A72-9213-222E2F4DBA56}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 7354 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione\/Collegio 12<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<em>Registro \- Avviso di liquidazione - Atto di espromissione riferito all\'assunzione per spirito di liberalit\à di un\'obbligazione contrattuale \- Disposizioni nell\'atto che derivano le une dalle altre \- Imposta dovuta per la sola disposizione che d\à luogo all\'imposizione pi\ù onerosa.<\/em>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{AD484D48-2C3C-46E1-A616-C47731B7C83F}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 7353 - Corte di giustizia tributaria di secondo grado del Lazio - Sezione\/Collegio 12<\/estremi><titoliProvvedimento><titoloProvvedimento><![CDATA[<em>Registro \- Avviso di liquidazione \- Registrazione sentenza - Contribuente attore nel giudizio civile \- Conoscenza della sentenza - Mancata allegazione all\'avviso \- Irrilevanza - Verifica della base imponibile e dell\'imposta liquidata \- Sussiste \- Legittimit\à dell\'avviso di liquidazione \- Consegue.<\/em>]]><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{C7D79D0C-28CE-445B-8BB8-C9D156745366}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 15180 - Corte di giustizia tributaria di primo grado di Roma - Sezione\/Collegio 40<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{466B72DC-A693-49D3-8414-D00F917CF8CB}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 2922 - Corte di giustizia tributaria di primo grado di Siracusa - Sezione\/Collegio 3<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{07F0FCD6-88AD-4BAB-813B-9ABF5063951B}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 1100 - Corte di giustizia tributaria di secondo grado dell\'Emilia Romagna - Sezione\/Collegio 14<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><Provvedimento idProvvedimento=\"{0C9E8B70-7E8B-4981-BDD3-EDEBAA0863CE}\"><estremi link=\"true\">Sentenza del 09\/12\/2024 n. 1101 - Corte di giustizia tributaria di secondo grado dell\'Emilia Romagna - Sezione\/Collegio 14<\/estremi><titoliProvvedimento><titoloProvvedimento><\/titoloProvvedimento><\/titoliProvvedimento><\/Provvedimento><\/risultati><\/risultatiRicerca>';	
+		
+		function processStateChange() {
+		    var pagesize = 50;
+			if (req.readyState == 4) { // Complete
+			if (req.status == 200) { // OK response
+			var count = req.responseXML.getElementsByTagName("countGiurisprudenzaAdvanced")[0].childNodes[0].nodeValue;
+			var numPages = ((count - (count % pagesize)) / pagesize);	
+			if ((count % pagesize) > 0) {
+	 				numPages++;
+				}
+			
+			
+			if(count > pagesize){			
+				if(document.getElementById("linkavantiUp")!=null)
+					document.getElementById("linkavantiUp").style.display = "inline";
+				if(document.getElementById("linkavantiDown")!=null)
+					document.getElementById("linkavantiDown").style.display = "inline";
+			}							
+			
+			if (document.getElementById("countGiurisprudenzaAvanzata") != null)
+			{
+			document.getElementById("countGiurisprudenzaAvanzata").innerHTML = count;
+			}
+			if(document.getElementById("countPagineGiurisprudenzaUp") != null){
+				document.getElementById("countPagineGiurisprudenzaUp").innerHTML = numPages;
+				document.getElementById("countPagineGiurisprudenzaDown").innerHTML = numPages;
+
+				if (document.getElementById("paginaCorrente").innerHTML >= numPages) {
+					// To mask "avanti"
+				    if(document.getElementById("avantiGiurisprudenzaUp") != null){
+				    	document.getElementById("avantiGiurisprudenzaUp").innerHTML = ""; 
+				    }
+				    if(document.getElementById("avantiGiurisprudenzaDown") != null){
+				    	document.getElementById("avantiGiurisprudenzaDown").innerHTML = ""; 
+				    }
+			    } 
+			}
+			if(document.getElementById("countTotali") != null)
+			{
+				document.getElementById("countTotali").innerHTML = count;
+			}
+			document.getElementById("countAjaxTerminated").disabled = false;
+			} else {
+				 alert("Problem: " + req.statusText);
+			}
+		 }
+		}
+	
+		function paginatorNextWaitAjaxCount(){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitFormJump('getNextPageAdvanced.do');
+		}
+		
+		function paginatorPreviousWaitAjaxCount(num){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitFormJump('getPageResultsAdvanced.do', num);
+		}
+		
+		function goDetatilWaitAjaxCount(url){		
+			if(document.getElementById("countAjaxTerminated").disabled == false)
+				submitForm(url);
+		}
+	</script>
+	
+
+</head>
+
+				 
+				 
+<body>
+
+<div>
+	<a href="#" id="countAjaxTerminated"></a>
+</div>
+
+
+
+
+<header role="banner">
+	
+	<div class="skiplink"><a href="#corpo" accesskey="0">Contenuti della pagina</a> | <a href="#menu-principale">Menu principale</a></div>
+	
+	<div id="testata-bg" class="web"></div>
+	
+	<div id="testata">	 
+	<div class="contenitore">
+		<div class="logo-def web">
+			<a href="start.do"><img src="./stylesheet_3.0/img/logo-def_2.png" alt="Torna alla home page" width="708" height="100"></a>
+		</div><!--.logo-def-->
+		<div class="logo-def mob">
+			<a href="start.do"><img src="./stylesheet_3.0/img/logo-def.png" alt="Torna alla home page" width="708" height="100"></a>
+		</div><!--.logo-def-->
+		<div class="logo-ssef web">
+			<a title="Dipartimento delle Finanze [link a sito esterno]" href="http://www.finanze.gov.it">
+				<img src="./stylesheet_3.0/img/logo-df.png" alt="Dipartimento delle Finanze Sito esterno" width="215" height="77" class="logo-mef">
+			</a>
+		</div><!--.logo-ssef-->
+	</div><!--.contenitore-->	
+	<div class="menu-servizio web"> 
+		<div class="contenitore">
+		<h1 class="skipheader">Menu di servizio</h1>
+		<ul>
+		<li><a href="start.do">Home</a></li>
+		<li><a href="./chiSiamo.jsp">Chi siamo</a></li>		
+		<!-- <li><a href="http://www.cerdef.it/site.php?page=20070220171621567">Scrivi a...</a></li>-->
+		<li><a href="./scriviA.jsp">Scrivi a...</a></li>
+		<li><a href="./Guida.jsp">Guida</a></li>
+		
+		
+			<li class="web"><a href="areaRiservata.do">Area riservata</a></li>
+		
+		
+		<li><a href="./RssIntro.jsp"><img src="./stylesheet_3.0/img/ico-rss.png" alt="RSS" title="RSS" width="22" height="22"></a></li>
+		</ul>
+		</div><!--.contenitore-->
+		</div><!--.menu-servizio--> 
+	</div><!--#testata-->
+	
+	
+	<nav role="navigation" class="web">
+		<div class="contenitore">
+		<div id="menu-principale">
+		<h1 class="skipheader">Menu principale</h1>
+		<ul>
+			<li id="menu_normativa">
+				<a href="callRicAvanzataNormativa.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Normativa">Normativa</a>
+			</li>
+			<li id="menu_prassi">
+				<a href="callRicAvanzataPrassi.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Prassi">Prassi</a>
+			</li>
+			<li id="menu_giurisprudenza">
+				<a href="callRicAvanzataGiurisprudenza.do?js_enabled=1&amp;reset=y" title="Ricerca avanzata di Giurisprudenza">Giurisprudenza</a>
+			</li>
+			<li id="menu_collezioni">
+				<a href="documentiRilevanti.do?js_enabled=1&amp;agenzia=COL" title="Ricerca nelle Collezioni">Collezioni</a>
+			</li>
+			<li id="menu_area_utente">
+				<a href="RicercheMemorizzate.jsp?js_enabled=1" title="Area utente">Area utente</a>				
+			</li>
+		</ul>
+		
+		<div class="clear"></div>		
+		</div><!--#menu-principale-->
+		</div><!--.contenitore-->
+	</nav>
+	
+</header>
+ 
+
+<div class="contenitore ie7">
+	
+	<div id="corpo" role="main">
+	
+	<!-- BREADCRUMBS -->
+	<div id="menu-navigazione">
+		<p>Ti trovi in: <a style="text-decoration: underline" href="start.do">Home</a> - 
+		
+		
+			
+			
+				<a style="text-decoration: underline" href="callRicAvanzataGiurisprudenza.do" class="web">Ricerca Avanzata Giurisprudenza</a>
+			
+ 		
+		
+	
+		&nbsp;-&nbsp;<strong>Risultati Ricerca</strong></p>
+	</div><!--#menu-navigazione-->
+		  
+	<!-- TITOLO -->
+	<h1 class="principale">Risultati ricerca</h1>	
+
+	<div id="principale" class="spalla-dx">	
+		
+		<!-- MSG RICERCA SALVATA -->
+		
+		
+		<!-- TOT e DO YOU MEAN -->
+		<div class="riepilogo-ricerca">
+				<p>Documenti trovati: <strong><span id="totDocumentiTrovati"></span></strong></p>			
+				<!-- DO YOU MEAN ? -->
+				<p id="doyoumean-list"></p>				
+
+				 				
+		</div><!--.riepilogo ricerca-->
+		
+		<!-- RISULTATO RICERCA -->
+		<div>
+			<h2 class="float-sx h2 web">Giurisprudenza</h2>
+			<p class="pagine-ricerca float-dx">Pagina <strong><span class="pageIndex"></span></strong><!-- di <span class="numPages"> </span> --><a href="#" class="indietro">Indietro</a> <a href="#" class="avanti">Avanti</a>
+				<!-- LINK ULTERIORI RISULTATI -->
+				<a href="javascript:void(0)" class="ulteriori" style="display:none;" onClick="window.location.href='paginatorXml.do'">Avanti</a>
+			</p>
+			<div class="br"></div>			
+			<div class="risultati-ricerca"></div>
+			<div class="br"></div>			
+			<p class="pagine-ricerca" data-href="#dom-2">Pagina <strong><span class="pageIndex"></span></strong><!-- di <span class="numPages"> </span> --><a href="#" class="indietro">Indietro</a> <a href="#" class="avanti">Avanti</a>
+				<!-- LINK ULTERIORI RISULTATI -->
+				<a href="javascript:void(0)" class="ulteriori" style="display:none;" onClick="window.location.href='paginatorXml.do'">Avanti</a>
+			</p>
+		</div><!--.spalla-sx-->	
+		
+	</div><!--#principale-->					
+						
+	<!-- MENU A DESTRA -->
+	<aside role="complementary">		
+		<div id="spalla-dx">
+			
+			<!-- ASSOCIA A COLLEZIONE -->
+			
+					
+			<!-- RIEPILOGO RICERCA -->
+			<div class="toggle">				
+				<div class="titolo">
+					<h2 class="secondario lowercase">Riepilogo dati inseriti</h2>
+				</div><!--.titolo-->		
+				<div class="contenuto">
+						<dl class="criteri-ricerca">
+							
+							<!-- PAROLE CERCATE -->
+							
+					  			
+							<!-- RICERCA SOLO NEL TITOLO -->
+							
+				  				
+				 	 		
+				 	 		<!-- RICERCA SOLO PER MASSIME PRESENTI -->
+							
+				  				
+				 	 		
+				 	 						 	 			
+				 	 		<!-- TIPO ESTREMI -->
+												  		
+					  		
+					  		<!-- NUMERO -->					  		
+					 							  		
+					  		
+					  		<!-- DENOMINAZIONE ENTE -->	
+												  		
+					  		
+					  		<!-- DENOMINAZIONE SUPERENTE -->	
+						  							  	
+						  	
+						  	<!-- DATA EMISSIONE -->				  
+					  		
+								<dt>Emissione</dt>
+								<dd>
+									
+										<strong> da: 01/01/2024</strong> 
+									
+									
+										<strong> fino a: 31/12/2024</strong> 
+									
+								</dd>
+					 		
+					 	 	<!-- MATERIA FISCALE -->
+						    
+						    <!-- CLASSIFICAZIONE -->
+						    
+						    
+						    <!-- ORDINAMENTO -->					    
+							
+								<dt>Dati</dt>
+								<dd><strong>ordinati per Data</strong></dd>
+													
+						</dl><!--.criteri-ricerca-->			
+				</div><!--.contenuto-->
+			</div><!--.toggle-->
+		
+		<!-- BOTTONI -->
+		<div class="bottoni estesi">
+			<span id="dom-1"></span>			 
+			 <!-- RAFFINA RICERCA -->
+			 <p class="web">
+		    	<a href="#" class="bottone icon icon-lente"  onClick="javascript:document.getElementById('raffinaRicerca').submit();">Raffina ricerca</a>
+			 </p>
+			<!-- MEMORIZZA RICERCA -->
+	   		<p class="web">
+	  	 	    
+				   	<a class="bottone icon icon-floppy" href="#" onClick="javascript:submitSaveSearch();">Memorizza ricerca</a>
+				 
+			</p>
+			<!-- STAMPA 
+			<p>
+				<a class="bottone icon icon-print" href="javascript:window.print();">Stampa</a>
+			</p>-->
+		</div><!--.bottoni-->		
+		<span id="dom-2"></span>
+		</div><!--#spalla-dx-->
+		
+	</aside>
+
+<div class="clear"></div>
+</div><!--#corpo-->
+</div><!--.contenitore-->
+<div class="clear"></div>
+<!-- FOOTER --> 
+
+
+
+
+<footer role="contentinfo">
+<div id="footer">
+	<div class="contenitore">
+	<h1 class="skipheader">Pi&egrave; di pagina</h1>
+	<ul>
+		<li><a target="_dichiarazioneAccessilitaAgid" title="Dichiarazione di accessibilit&agrave; [link a sito esterno, apre una nuova finestra]" href="https://form.agid.gov.it/view/d2541de0-956c-11f0-8e98-83c59d87f31b">Dichiarazione di accessibilit&agrave;</a>
+
+		<li><a href="./privacy.jsp">Privacy</a></li>
+		<li><a href="./linkUtili.jsp">Link utili</a></li>
+		<li><a href="./noteLegali.jsp">Note legali</a></li>		
+	</ul>
+	</div><!--.contenitore-->
+	<div class="clear"></div>
+	</div><!--#footer-->
+</footer>
+
+<!-- Matomo DEF - Documentazione Economica e Finanziaria -->
+
+	<!-- Matomo - DEF - Documentazione Economica e Finanziaria -->
+	<script type="text/javascript">
+	  var _paq = window._paq || [];
+	  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+	  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+	  _paq.push(["setCookieDomain", "*.def.finanze.it"]);
+	  _paq.push(["setDomains", ["*.def.finanze.it","*.def.giustiziatributaria.gov.it"]]);
+	  _paq.push(['trackPageView']);
+	  _paq.push(['enableLinkTracking']);
+	  (function() {
+	    var u="https://aaws-aanalytics.sogei.it/piwik/";
+	    _paq.push(['setTrackerUrl', u+'matomo.php']);
+	    _paq.push(['setSiteId', '31']);
+	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+	  })();
+	</script>
+	<noscript><p><img src="https://aaws-aanalytics.sogei.it/piwik/matomo.php?idsite=31&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+	<!-- End Matomo Code -->
+
+<!-- FORM RAFFINA RICERCA -->
+<form action="callRicAvanzataGiurisprudenza.do" method="POST" id="raffinaRicerca">
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	
+		<input type="hidden" name="numArticolo" value ="" />
+	
+	
+		<input type="hidden" name="articolo" value ="" />
+	
+	<input type="hidden" name="tipoEstremi" value ="" />
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+</form>
+<!-- FORM SALVATAGGIO RICERCA -->
+
+<form action="executeAdvancedGiurisprudenzaSearch.do" method="POST" id="saveSearchForm" style="display:none;">
+	<input type="hidden" name="saveSearch" value="true" />
+	<input type="hidden" name="[i]pageToCall" value="executeAdvancedGiurisprudenzaSearch.do" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="tipo_ord"  value ="DATA" />
+	
+	<input type="hidden" name="dataEmissioneA" value ="31/12/2024"/>
+	
+	
+	<input type="hidden" name="dataEmissioneDa" value ="01/01/2024" />
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	<input type="hidden" name="device" value ="D"/>
+	<input type="hidden" name="tipoRicerca"  value ="RA"/>
+	<input type="hidden" name="ambitoRicerca" value ="G" />
+	<input type="hidden" name="tipoEstremi" value ="" />
+	<input type="hidden" name="materiaFiscale" value ="" />
+	<input type="hidden" name="classificazioneArgomento" value ="" />
+	<input type="hidden" name="materiaFiscaleDescr" value ="null" />
+	<input type="hidden" name="classificazioneArgomentoDescr" value ="null" />
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+	
+	
+	
+	
+</form>
+<!-- FORM ASSOCIA COLLEZIONE -->
+<form action="preAssociaCollezione.do" method="POST" id="aggiungiCollezioneForm" style="display:none;">
+	<input type="hidden" name="saveSearch2"    value="true" />
+	<input type="hidden" name="[i]pageToCall2" value="preAssociaCollezione.do" />
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+</form>
+<!-- FORM CHANGE PAGE -->
+<form name="changePage" action="#" method="post" style="display:none;">	
+	<input type="hidden" name="numero" id="numero"  value="">
+	<input type="hidden" name="anno" id="anno"  value="null">
+	<input type="hidden" name="parole" id="parole"  value="">
+	<input type="hidden" name="tipoCriterioRicerca" id="tipoCriterioRicerca"  value="0">
+	<input type="hidden" name="tipo_ord" id="tipo_ord"  value="DATA">
+	<input type="hidden" name="pageDest" id="pageDest"  value="">
+	<input type="hidden" name="TYPE_DOCUMENT_SEARCH" id="TYPE_DOCUMENT_SEARCH"  value="2">
+</form>	
+<!-- FORM DO YOU MEAN -->
+<form action="executeAdvancedGiurisprudenzaSearch.do" method="POST" id="DoYouMeanForm" style="display:none;">
+	<input type="hidden" name="doYouMeanForm" value="true" />
+	<input type="hidden" name="[i]pageToCall" value="executeAdvancedGiurisprudenzaSearch.do" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	<input type="hidden" name="ambitoRicerca" value="G" />
+	<input type="hidden" name="tipoRicerca" value="RA" />
+	<input type="hidden" name="numero" value ="" />
+	<input type="hidden" name="anno" value="null" />
+	<input type="hidden" name="tipoCriterioRicerca" value ="0" />
+	<input type="hidden" name="device"  value ="D"/>
+	<input type="hidden" name="tipo_ord" value ="DATA"/>	
+	<input type="hidden" name="parole" value ="" />
+	<input type="hidden" name="tipoComplessitaRicerca" value ="SIMPLE_SEARCH" />
+	<input type="hidden" name="tipoNavigazione" value="none">
+	
+	
+		<input type="hidden" name="ente" value ="" />
+	
+	
+		<input type="hidden" name="numArticolo" value ="" />
+	
+	
+		<input type="hidden" name="articolo" value ="" />
+	
+	<input type="hidden" name="ricercaNelTitolo" value ="false" />
+	
+	
+</form>	
+</body>
+</html>

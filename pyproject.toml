@@ -1,0 +1,25 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src"]
+markers = [
+    "unit: hermetic unit test (runs in the image build)",
+    "integration: needs Docker (Postgres + pgvector); excluded from the image build",
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src:tests:tests/unit:."
+explicit_package_bases = true
+
+[tool.ruff]
+line-length = 160
+target-version = "py312"
+src = ["src", "tests", "."]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D", "COM812", "ISC001", "T201", "S101", "ANN401", "CPY001", "TRY003", "EM101", "EM102"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["TC003", "PLR0913", "PLR0917", "FBT001", "PLR2004", "INP001", "E501", "SLF001", "S105", "S106"]

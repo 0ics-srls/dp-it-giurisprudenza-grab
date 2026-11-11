@@ -1,0 +1,6 @@
+# Dev/test deps: the production deps plus the test + type-check gate.
+-r requirements.txt
+pytest>=8.0
+mypy>=1.11
+ruff
+types-defusedxml

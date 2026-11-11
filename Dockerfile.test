@@ -1,0 +1,9 @@
+# Dockerfile.test - ProcMon builds this, runs the container, treats a non-zero exit as a test failure.
+# pytest is the build gate. Hermetic: fixtures only, no network. The whole repo is copied (.dockerignore keeps .venv/.git out).
+FROM python:3.12-slim
+WORKDIR /app
+COPY requirements-dev.txt requirements.txt ./
+RUN pip install --no-cache-dir -r requirements-dev.txt
+COPY . .
+ENV PYTHONPATH=/app/src
+ENTRYPOINT ["python", "-m", "pytest", "-q", "-m", "not integration"]
