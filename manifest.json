@@ -2,7 +2,7 @@
   "specVersion": "1.1",
   "type": "stdin",
   "name": "dp-it-giurisprudenza-grab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Downloads case-law sources into <dir>: Corte costituzionale open data dumps, Cassazione Solr pages (ItalGiure), CGT decisions (MEF DocTrib). Sidecar files for the convert class.",
   "author": "open-lex-it",
   "authentication": false,
