@@ -70,8 +70,9 @@ def _planned(base: Path, entry: dict[str, Any]) -> dict[str, str]:
     return {KIND_CC: cc.planned, KIND_CASSAZIONE: cassazione.planned, KIND_CGT: cgt.planned}[entry["meta"]["kind"]](base, entry)
 
 
-def run_grab(params: dict[str, Any], deps: GrabDeps, on_progress: Progress) -> dict[str, Any]:
+def run_grab(raw_params: dict[str, Any], deps: GrabDeps, on_progress: Progress) -> dict[str, Any]:
     """Tries every item; if any failed raises GrabError (config_error if any failure is a config error, else transient)."""
+    params = {name: value for name, value in raw_params.items() if value is not None}  # the Host resolves an undeclared Source config key to null
     items = validate_items(params.get("items"))
     directory = params.get("dir")
     if not isinstance(directory, str) or not directory:

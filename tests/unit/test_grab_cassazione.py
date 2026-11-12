@@ -216,6 +216,16 @@ def test_resume_overwrites_an_existing_page_file_atomically(sleeps: list[float],
     assert not list(pages.glob("*.tmp"))
 
 
+def test_source_config_keys_resolved_to_null_by_the_host_count_as_absent(sleeps: list[float], tmp_path: Path) -> None:
+    solr = SolrFake(total=2)
+    nulls = {"solrBaseUrl": None, "verifyTls": None, "maxDocs": None, "maxItems": None, "allowedHosts": None, "dryRun": None}
+
+    result = run_grab(params(tmp_path, item(3), **nulls), deps(solr, sleeps), lambda *_: None)
+
+    assert result["downloaded"] == 1
+    assert solr.forms[0]["rows"] == "0"
+
+
 def test_dry_run_makes_no_request(sleeps: list[float], tmp_path: Path) -> None:
     solr = SolrFake(total=3)
 
